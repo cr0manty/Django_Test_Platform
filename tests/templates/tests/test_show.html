@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ test.name }}
+{% endblock %}
+
+{% block content %}
+<div class="card mb-5">
+    <div class="card-header">
+        <div class="row container">
+            <h1 class="col">{{ test.name }}</h1>
+            <div class="col-md-4 additional_color" style="color: #989898;">{{ test.date_create }}</div>
+        </div>
+        <p id="author_post" style="margin-top: 0.1rem" class="col">
+            Автор:
+            <a class="author_link" href="{% url 'user_url' username=test.author %}">
+                {{ test.author }}
+            </a></p>
+        <p class="col-md-4" style="color: #989898;">Пройдено {{ test.passes_number }}</p>
+
+    </div>
+    <div class="card-body">
+        <p class="card-text content-text">{{ test.description }}</p>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'start_test' slug=test.slug %}" class="btn btn-danger">Пройти тест</a>
+        {% endif %}
+    </div>
+    <div class="card-footer text-muted">
+        <p id="comments_label" class="additional-color">Коментарии:</p>
+        <hr/>
+        {% include 'includes/comments.html' %}
+    </div>
+</div>
+{% include 'includes/modal_comment_form.html' %}
+
+{% endblock %}
+
+{% block script %}
+<script>
+   function comment_new_show(show) {
+        document.getElementById("edit_text").hidden = !show;
+        document.getElementById("comment_text").hidden = show;
+   }
+
+
+</script>
+{% endblock %}
+
+

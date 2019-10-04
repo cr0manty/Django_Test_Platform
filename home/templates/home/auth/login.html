@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Вход
+{% endblock %}
+
+{% block content %}
+<h1>Вход</h1>
+<form action="{% url 'login_url' %}" method="POST" class="center">
+    {% include 'template_forms.html' %}
+
+    <div class="row" hidden>
+        <button type="submit" class="btn btn-dange"
+                style="margin-left:15px; ">Войти
+        </button>
+        <a href="{% url 'registration_url' %}" class="btn btn-dark"
+           style="margin-left:20px;">Регистрация</a>
+    </div>
+    <button type="submit" class="btn btn-danger mb-2">Войти
+    </button>
+    <p>Еще не зарегестрирванны? <a href="{% url 'registration_url' %}">Регистрация</a></p>
+</form>
+{% endblock %}
+

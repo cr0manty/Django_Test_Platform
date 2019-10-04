@@ -1,0 +1,115 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.form-group, .dropdown-menu a, h3, label, h1 {
+    color: white;
+}
+
+a, p , .card p{
+    color: white;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #dc3544;
+}
+
+.card {
+    background-color: #303030!important;
+    color: white;
+    border-radius: 1.1rem;
+}
+
+.card-body {
+    background-color: #383838d4;
+}
+
+.mb-lg-2, .my-lg-2 {
+    margin-bottom: -0.5rem!important;
+}
+
+.page-link {
+    color: #dc3544;
+}
+
+.page-item.disabled .page-link , .page-link {
+    background-color: inherit;
+    border-color: #dc3544;
+}
+
+.page-item.active .page-link, .page-link:hover {
+    color: white;
+    background-color: #dc3544;
+    border-color: #dc3544;
+}
+
+.dropdown-menu {
+    background-color: #303030!important;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+body {
+    background-color: #1a1a1a;
+    margin-bottom: 60px;
+    color: white;
+
+}
+
+.bg-dark {
+    background-color: #303030!important;
+    color: white;
+    border: none;
+}
+
+.form-control {
+    background-color: #fdfdfd!important;
+    color: #1d1d1d;
+    padding: .375rem .75rem;
+    background-clip: padding-box;
+    border: 1px solid #a0a0a0;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s
+}
+
+#footer {
+    background-color: rgba(50, 50, 50, 0.83)!important;
+    margin-top: 100px;
+    color: black;
+    height: 65px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.list-group-item  {
+   border: 1px;
+   border-radius: 0.25rem;
+   margin-bottom: 0.5rem;
+   background-color: #2e2e2e;
+}
+
+hr {
+    border-top: 1px solid rgba(121, 121, 121, 0.45);
+}
+
+#footer a, p {
+    color: #989898;
+    text-decoration: none;
+}
+
+.modal-content {
+    background-color: #303030;
+    border: none
+}
+
+.modal-header {
+    display: block;
+    border-bottom: none
+}

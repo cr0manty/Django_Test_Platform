@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Создание теста
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'create_test' %}" method="POST">
+    {% include 'template_forms.html' %}
+    {% for question in questions %}
+    <div class="form-group">
+        {% if question.errors %}
+        <div class="alert alert-danger">
+            {{ question.errors.as_p }}
+        </div>
+        {% endif %}
+
+        {{ question.label }}
+        {{ question }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-danger">Создать</button>
+</form>
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
+	

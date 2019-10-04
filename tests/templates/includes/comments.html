@@ -1,0 +1,36 @@
+        {% if page.object_list %}
+<div id="comment-show">
+    <div class="container mt-3">
+        <ul class="list-group list-group-flush">
+            {% for comment in page.object_list %}
+            <li class="list-group-item comment-list" style="border: 1px;" id="comments_list">
+                <div class="row" style="color:white;">
+                    <h5 class="col">
+                        <a href="{% url 'user_url' username=comment.author %}" class="content-text">
+                            {{ comment.author }}
+                        </a>
+                    </h5>
+                </div>
+                <hr style="margin-top: 0px; margin-bottom: 10px;"/>
+                <p class="content-text">{{ comment.text }}</p>
+                <hr style="margin-top: 25px; margin-bottom: 5px;"/>
+                <p class="date_comment">{{ comment.date_create }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        {% include 'includes/template_pages.html' %}
+        {% endif %}
+    </div>
+    <div class="container ml-2">
+        {% if request.user.is_authenticated %}
+        <button class="btn btn-danger mt-2 mb-3" data-toggle="modal"
+                data-target="#create_post">
+            Добавить комментарий
+        </button>
+        {% else %}
+        <p class="text-danger center" style="text-align: center;">
+            Нужно быть авторизованным чтоб оставлять комментарии или проходить тестирование!
+        </p>
+        {% endif %}
+    </div>
+</div>

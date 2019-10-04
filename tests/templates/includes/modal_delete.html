@@ -1,0 +1,15 @@
+<div class="modal mt-5" tabindex="-1" role="dialog" id="{{ id }}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form action="{{ action }}" method="post">
+                    {% csrf_token %}
+                    <h3>Вы точно хотите удалить?</h3>
+                    <button type="submit" name="button" class="btn btn-danger">Удалить</button>
+                    <a class="btn btn-outline-danger" href="">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
