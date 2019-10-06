@@ -1,0 +1,59 @@
+<form action="{% url 'test_show' slug=test.slug %}" method="POST">
+    {% csrf_token %}
+    <div class="card mb-3" id="add_question" hidden>
+        <div class="modal-header">
+            <h5 class="card-title">Добавить вопрос</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="question">Вопрос</label>
+                {{ question.question }}
+            </div>
+            <br>
+            <label for="answer_1">Ответ 1:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" name="answer" id="answer_1" value="1" checked>
+                    </div>
+                </div>
+                {{ question.answer_1 }}
+            </div>
+            <br>
+            <label for="answer_2">Ответ 2:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" name="answer" id="answer_2" value="2">
+                    </div>
+                </div>
+                {{ question.answer_2 }}
+            </div>
+            <br>
+            <label for="answer_3">Ответ 3:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" name="answer" id="answer_3" value="3">
+                    </div>
+                </div>
+                {{ question.answer_3 }}
+            </div>
+            <br>
+            <label for="answer_4">Ответ 4:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" name="answer" id="answer_4" value="4">
+                    </div>
+                </div>
+                {{ question.answer_4 }}
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-danger pull-right">
+                Добавить
+            </button>
+        </div>
+    </div>
+</form>

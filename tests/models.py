@@ -5,17 +5,10 @@ from slugify import slugify_url
 from time import time
 
 
-class Question(models.Model):
-    question = models.CharField(max_length=64)
-    answers = models.CharField(max_length=256)
-    correct = models.IntegerField()
-
-
 class Test(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=128, blank=True, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    questions = models.ManyToManyField('Question', related_name='test')
     passes_number = models.IntegerField(default=0)
     description = models.CharField(max_length=256, blank=True)
     date_create = models.DateTimeField(auto_now_add=True)
@@ -34,6 +27,13 @@ class Test(models.Model):
         ordering = ['-date_create']
         verbose_name = 'Тест'
         verbose_name_plural = 'Тесты'
+
+
+class Question(models.Model):
+    question = models.CharField(max_length=256, blank=False, null=False)
+    answers = models.CharField(max_length=256, blank=False, null=False)
+    correct = models.CharField(max_length=64, blank=False, null=False)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):

@@ -11,20 +11,15 @@
     <div class="form-group">
         {% if question.errors %}
         <div class="alert alert-danger">
-            {{ question.errors.as_p }}
+            {{ question.errors }}
         </div>
         {% endif %}
-
-        {{ question.label }}
-        {{ question }}
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-danger">Создать</button>
+    <button type="submit" class="btn btn-danger pull-right mb-3">Создать</button>
 </form>
 {% endblock %}
 
 
-{% block script %}
 
-{% endblock %}
 	

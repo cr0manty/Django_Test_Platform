@@ -16,8 +16,7 @@
                     <img src="{{ profile.image }}"
                          class="img-thumbnail" id="profile_image"/>
                     <input type="file" accept=".png, .jpg, .jpeg"
-                           onchange="onFileSelected(event);"/>
-<!--                    onchange="send_file(this.files); submit();"/>-->
+                           onchange="onFileSelected(event); submit();"/>
                 </form>
             </div>
             <h1 align="center" style="margin-top: 0.8rem;">{{ profile.user.username|title }}</h1>

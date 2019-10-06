@@ -114,6 +114,10 @@ hr {
     border-bottom: none
 }
 
+.modal-footer {
+    border-top: 1px solid #545454;
+}
+
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
@@ -146,4 +150,8 @@ hr {
 
 .upload-btn-wrapper:hover {
     opacity: 0.5;
+}
+
+.pull-right {
+    float: right !important; // Use of important emulates bootstrap
 }

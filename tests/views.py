@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 
-from .models import Test
+from .models import Test, Question
 from .forms import CommentForm, TestForm, QuestionForm
 
 
@@ -60,7 +60,29 @@ class ShowTest(View):
         test = get_object_or_404(Test, slug__iexact=slug)
         context = {
             'test': test,
-            'form': CommentForm,
+            'form': CommentForm(),
+            'question': QuestionForm()
+        }
+        page = get_comments_pages(request, test.comment_set.all())
+        context.update(get_pages_context(page))
+        return render(request, 'tests/test_show.html', context=context)
+
+    def post(self, request, slug):
+        question = QuestionForm(request.POST)
+        test = get_object_or_404(Test, slug__iexact=slug)
+        if question.is_valid() and test is not None:
+            quest_old = Question.objects.filter(
+                Q(question=question.cleaned_data.get('question')) &
+                Q(test__id=test.id)).first()
+            if quest_old is None:
+                test.question_set.create(
+                    question=question.cleaned_data.get('question'),
+                    answers=question.get_answers(),
+                    correct='answer_' + request.POST.get('answer')
+                )
+        context = {
+            'test': test,
+            'question': QuestionForm()
         }
         page = get_comments_pages(request, test.comment_set.all())
         context.update(get_pages_context(page))
@@ -71,21 +93,17 @@ class CreateTest(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'tests/test_create.html', context={
             'form': TestForm(),
-            'questions': QuestionForm()
         })
 
     def post(self, request):
         test = TestForm(request.POST)
-        questions = QuestionForm(request.POST)
-        if test.is_valid() and questions.is_valid():
+        if test.is_valid():
             test = test.save(commit=False)
             test.author = request.user
             test.save()
-            questions.save()
             return redirect(test.get_absolute_url())
         return render(request, 'tests/test_create.html', context={
             'form': test,
-            'questions': questions
         })
 
 

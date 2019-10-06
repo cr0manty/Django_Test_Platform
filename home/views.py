@@ -84,4 +84,4 @@ class SetAbout(View):
 
 
 def set_profile_image(request, username):
-    pass
+    return redirect('user_redirect')
