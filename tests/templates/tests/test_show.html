@@ -7,16 +7,16 @@
 {% block content %}
 <div class="card mb-4">
     <div class="card-header">
-        <div class="row container">
-            <h1 class="col">{{ test.name }}</h1>
-            <div class="col-md-4 additional_color" style="color: #989898;">{{ test.date_create }}</div>
+        <div class="row">
+            <h1 class="col-7">{{ test.name }}</h1>
+            <div class="col-5 additional_color" style="color: #989898;">{{ test.date_create }}</div>
         </div>
         <p id="author_post" style="margin-top: 0.1rem" class="col">
             Автор:
             <a class="author_link" href="{% url 'user_url' username=test.author %}">
                 {{ test.author }}
             </a></p>
-        <p class="col-md-4" style="color: #989898;">Пройдено {{ test.passes_number }}</p>
+        <p class="col-md-6" style="color: #989898;">Количество прохождений: {{ test.passes_number }}</p>
     </div>
     <div class="card-body">
         <p class="card-text content-text">{{ test.description }}</p>

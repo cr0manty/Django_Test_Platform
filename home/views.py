@@ -72,9 +72,6 @@ def redirect_to_user(request):
 
 
 class SetAbout(View):
-    def get(self, request, username):
-        return redirect('user_redirect')
-
     def post(self, request, username):
         profile = Profile.objects.filter(user__username=username).first()
         if profile is not None:

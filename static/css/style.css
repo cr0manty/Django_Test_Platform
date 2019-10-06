@@ -153,5 +153,5 @@ hr {
 }
 
 .pull-right {
-    float: right !important; // Use of important emulates bootstrap
+    float: right !important;
 }

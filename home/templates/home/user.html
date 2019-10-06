@@ -6,6 +6,13 @@
 {% endblock %}
 
 {% block content %}
+{% if profile.birth_date == None %}
+<div class="alert alert-danger" role="alert">
+    Дата рождения не указана!
+    <a href="" onclick="" class="alert-link">Указать</a>
+</div>
+{% endif %}
+
 <div class="container mt-5">
     <div class="row">
         <div class="col">
@@ -24,8 +31,12 @@
         <div class="col-6">
             <p> Имя: <br>{{ profile.user.first_name }}</p>
             <p> Фамилия: <br>{{ profile.user.last_name }}</p>
-            <p> Дата регистрации: <br>{{ profile.user.date_joined }}</p>
-            <p> Дата рождения: <br>{{ profile.birth_date }}</p>
+            <p> Дата рождения:
+                <br>{% if profile.birth_date == None %}Не указано{% else %}{{ profile.birth_date }}{% endif %}</p>
+            {% if request.user.is_staff %}
+            <a href="/admin" class="btn btn-outline-danger">Админ</a>
+            {% endif %}
+
         </div>
     </div>
     <form action="{% url 'about_set' username=profile.user %}" method="POST" id="about_form">
@@ -33,41 +44,41 @@
         <label for="about" class="mt-3">О себе</label> <br>
         <textarea name="about" id="about" cols="60" rows="10"
                   readonly>{% if profile.about != None %}{{ profile.about }}{% endif %}</textarea>
-        {% if request.user.is_authenticated %}
+        {% if request.user.username == profile.user.username %}
         <input class="btn btn-danger mb-3" type="button" id="change_button"
-           onclick='about_me(this)' value="Изменить">
+               onclick='about_me(this)' value="Изменить">
         {% endif %}
     </form>
 </div>
+<br>
 {% endblock %}
 
 
 {% block script %}
-    function about_me(button) {
-        if (button.value  == "Изменить") {
-            button.value  = "Сохранить";
-            document.getElementById("about").readOnly = false;
-        }
-        else {
-            button.value  = "Изменить";
-            document.getElementById("about").readOnly = true;
-            document.getElementById("about_form").submit();
-        }
+function about_me(button) {
+    if (button.value  == "Изменить") {
+        button.value  = "Сохранить";
+        document.getElementById("about").readOnly = false;
     }
-
-    function onFileSelected(event) {
-        var selectedFile = event.target.files[0];
-        var reader = new FileReader();
-
-        var imgtag = document.getElementById("profile_image");
-          imgtag.title = selectedFile.name;
-
-        reader.onload = function(event) {
-            imgtag.src = event.target.result;
-        };
-
-        reader.readAsDataURL(selectedFile);
+    else {
+        button.value  = "Изменить";
+        document.getElementById("about").readOnly = true;
+        document.getElementById("about_form").submit();
     }
+}
+
+function onFileSelected(event) {
+    var selectedFile = event.target.files[0];
+    var reader = new FileReader();
+
+    var imgtag = document.getElementById("profile_image");
+    imgtag.title = selectedFile.name;
+
+    reader.onload = function(event) {
+        imgtag.src = event.target.result;
+    };
+    reader.readAsDataURL(selectedFile);
+}
 
 {% endblock %}
 

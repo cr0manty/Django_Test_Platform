@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'tests',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -103,7 +108,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '326642643338-pju9fnobpf6ul2fc5ehm31qh72t6644k.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'V9EvtZQCT2F-vKfqK4qstnVj'
 
+LOGIN_URL = '/auth/login/google-oauth2/'
+
+LOGIN_REDIRECT_URL = '/user/'
+LOGOUT_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 

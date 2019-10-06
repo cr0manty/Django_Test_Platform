@@ -29,12 +29,6 @@ class RegistrationForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
-    birth_date = forms.DateField(
-        input_formats=['%Y-%m-%d'],
-        label='Дата рождения',
-        widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
-    )
-
     def save(self):
         cd = self.cleaned_data
         user = User(
@@ -45,8 +39,7 @@ class RegistrationForm(forms.Form):
         )
         user.set_password(cd.get('password'))
         user.profile = Profile(
-            user=user,
-            birth_date=cd.get('birth_date'),
+            user=user
         )
         user.save()
 

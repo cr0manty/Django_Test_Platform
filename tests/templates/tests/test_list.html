@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}
 Тесты
 {% endblock %}
@@ -16,13 +17,7 @@
 </div>
 
 {% for test in page.object_list %}
-{% if filter %}
-{% if request.user.profile == test %}
 {% include 'includes/template_test_card.html' %}
-{% endif %}
-{% else %}
-{% include 'includes/template_test_card.html' %}
-{% endif %}
 {% endfor %}
 {% include 'includes/template_pages.html' %}
 
@@ -40,5 +35,5 @@
     <img src="{% static 'img/no_tests.png' %}" class="rounded img_post">
 </div>
 {% endif %}
-
+<br>
 {% endblock %}

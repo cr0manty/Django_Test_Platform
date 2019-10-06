@@ -12,8 +12,8 @@ from .forms import CommentForm, TestForm, QuestionForm
 def get_pages(request, filter_tests=False):
     search = request.GET.get('search', '')
     if filter_tests:
-        tests = Test.objects.select_related(
-            'usertestpass').filter(usertestpass=request.user).all()
+        tests_id = UserTestPass.objects.filter(user=request.user).values('test').all()
+        tests = Test.objects.filter(id__in=tests_id).all()
     else:
         tests = Test.objects.filter(
             Q(name__icontains=search)
@@ -33,7 +33,7 @@ def get_comments_pages(request, comments):
     return page
 
 
-def get_pages_context(page, filter_test=False):
+def get_pages_context(page):
     have_pages = page.has_other_pages()
     prev_url = '?page={}'.format(page.previous_page_number()) \
         if page.has_previous() else ''
@@ -45,7 +45,6 @@ def get_pages_context(page, filter_test=False):
         'have_pages': have_pages,
         'next_url': next_url,
         'prev_url': prev_url,
-        'filter': filter_test
     }
 
 
