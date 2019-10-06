@@ -99,7 +99,7 @@ hr {
     border-top: 1px solid rgba(121, 121, 121, 0.45);
 }
 
-#footer a, p {
+#footer a, p, h6 {
     color: #989898;
     text-decoration: none;
 }

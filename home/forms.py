@@ -44,13 +44,11 @@ class RegistrationForm(forms.Form):
             last_name=cd.get('last_name')
         )
         user.set_password(cd.get('password'))
-        user.save()
-        profile = Profile(
+        user.profile = Profile(
             user=user,
             birth_date=cd.get('birth_date'),
-            about=cd.get('about_me')
         )
-        profile.save()
+        user.save()
 
     def clean(self):
         super().clean()

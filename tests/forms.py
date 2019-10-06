@@ -81,4 +81,4 @@ class QuestionForm(forms.Form):
     def get_answers(self):
         cd = self.cleaned_data
         return '{};{};{};{}'.format(cd.get('answer_1'), cd.get('answer_2'),
-                                       cd.get('answer_3'), cd.get('answer_4'))
+                                    cd.get('answer_3'), cd.get('answer_4'))

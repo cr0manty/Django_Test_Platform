@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+
+{% block title %}
+Результат теста {{ test.name }}
+{% endblock %}
+
+
+{% block content %}
+<h1 class="text-center">Поздравлем! Тест успешно пройден!</h1>
+<div class="row text-center">
+    <div class="col">
+        <img src="{{ request.user.profile.image }}"
+             class="img-thumbnail mb-3 mt-3" id="profile_image"/>
+        <h2>{{ request.user.username |title }}</h2>
+        <h3>Вы набрали {{ correct_present }}%</h3>
+        <h4>Вы ответили правильно на {{ correct_answers }} из {{ answers_amount }} вопросов.</h4>
+        <a href="{% url 'start_test' slug=test.slug %}" class="btn btn-outline-danger">Пройти снова</a>
+    </div>
+</div>
+{% endblock %}

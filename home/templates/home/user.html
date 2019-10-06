@@ -31,7 +31,8 @@
     <form action="{% url 'about_set' username=profile.user %}" method="POST" id="about_form">
         {% csrf_token %}
         <label for="about" class="mt-3">О себе</label> <br>
-        <textarea name="about" id="about" cols="60" rows="10" readonly>{{ profile.about }}</textarea>
+        <textarea name="about" id="about" cols="60" rows="10"
+                  readonly>{% if profile.about != None %}{{ profile.about }}{% endif %}</textarea>
         {% if request.user.is_authenticated %}
         <input class="btn btn-danger mb-3" type="button" id="change_button"
            onclick='about_me(this)' value="Изменить">

@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+
+{% block title %}
+{{ name }}
+{% endblock %}
+
+
+{% block content %}
+<h1 class="mb-5" style="text-align: center;">{{ name }}</h1>
+<form action="{% url 'start_test' slug=slug %}" method="POST">
+    {% csrf_token %}
+
+    {% for question in questions %}
+    <div class="card-body">
+        <div class="form-group">
+            <h6>Вопрос</h6>
+            <p class="text-break" style="color: white;">{{ question.question }}</p>
+        </div>
+        <br>
+        <h6 class="mb-3">Выберите правильный варианнт</h6>
+        <ul class="list-group">
+            {% for answer in question.answers %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <input type="radio" name="{{ forloop.parentloop.counter }}" value="1">
+                    </div>
+                    <div class="col-xs-7 ml-3">
+                        <p class="text-break" style="color: white;">{{ answer }}</p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <br>
+    {% endfor %}
+    <button class="btn btn-danger mb-4" type="submit">Завершить</button>
+    {% include 'includes/template_pages.html' %}
+</form>
+
+{% endblock %}

@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 
-from .models import Test, Question
+from .models import Test, Question, UserTestPass
 from .forms import CommentForm, TestForm, QuestionForm
 
 
@@ -78,7 +78,7 @@ class ShowTest(View):
                 test.question_set.create(
                     question=question.cleaned_data.get('question'),
                     answers=question.get_answers(),
-                    correct='answer_' + request.POST.get('answer')
+                    correct=request.POST.get('answer')
                 )
         context = {
             'test': test,
@@ -107,7 +107,7 @@ class CreateTest(LoginRequiredMixin, View):
         })
 
 
-class AddComment(View):
+class AddComment(LoginRequiredMixin, View):
     def get(self, request, slug):
         raise Http404
 
@@ -123,3 +123,53 @@ class AddComment(View):
             except Exception as e:
                 return redirect(test.get_absolute_url())
         return redirect(test.get_absolute_url())
+
+
+class PassTest(LoginRequiredMixin, View):
+    def get(self, request, slug):
+        test = Test.objects.filter(slug=slug).first()
+        questions = test.question_set.all()
+        for question in questions:
+            question.answers = question.answers.split(';')
+        return render(request, 'tests/start_test.html', context={
+            'name': test.name,
+            'questions': questions,
+            'slug': test.slug,
+        })
+
+    def post(self, request, slug):
+        correct_answers = 0
+        test = Test.objects.filter(slug=slug).first()
+        questions = test.question_set.all()
+        for i, question in enumerate(questions):
+            answer = request.POST.get(str(i + 1), '')
+            if question.correct == answer:
+                correct_answers += 1
+        test.passes_number += 1
+        test.save()
+        answers_amount = len(questions)
+        user_passes = UserTestPass.objects.filter(
+            Q(test__slug=slug) & Q(user__username=request.user.username)
+        ).first()
+        if user_passes is None:
+            user_passes = UserTestPass(
+                user=request.user,
+                test=test
+            )
+        user_passes.correct_answer = correct_answers
+        user_passes.amount_answer = answers_amount
+        user_passes.correct_present = correct_answers / answers_amount * 100
+        user_passes.save()
+        return redirect('test_result', slug=slug)
+
+
+def show_result(request, slug):
+    user_passes = UserTestPass.objects.filter(
+        Q(test__slug=slug) & Q(user__username=request.user.username)
+    ).first()
+    return render(request, 'tests/test_result.html', context={
+        'test': user_passes.test,
+        'correct_answers': user_passes.correct_answer,
+        'answers_amount': user_passes.amount_answer,
+        'correct_present': user_passes.correct_present
+    })

@@ -25,7 +25,7 @@
             Тест не завершен! Для его прохождения требуется как минимум 5 вопросов!
             Вопросов в тесте
             {% if test.question_set.count %}
-            {{test.question_set.count}}
+            {{ test.question_set.count }}
             {% else %}
             0
             {% endif %}
@@ -44,8 +44,7 @@
                 {% endif %}
             </div>
         </div>
-        {% include 'includes/modal_add_question.html' %}
-
+        {% include 'includes/add_question.html' %}
     </div>
     <div class="card-footer text-muted">
         <p id="comments_label" class="additional-color">Коментарии:</p>
@@ -59,15 +58,14 @@
 
 {% block script %}
 function show_hide(button) {
-var element = document.getElementById("add_question");
-if(button.text == "Добавить вопрос") {
-button.text = "Скрыть";
-document.getElementById("add_question").hidden = false;
-}
-else if(button.text == "Скрыть") {
-button.text = "Добавить вопрос";
-document.getElementById("add_question").hidden = true;
-}
+    if (button.text == "Добавить вопрос") {
+        button.text = "Скрыть";
+        document.getElementById("add_question").hidden = false;
+    }
+    else if(button.text == "Скрыть") {
+        button.text = "Добавить вопрос";
+        document.getElementById("add_question").hidden = true;
+    }
 }
 {% endblock %}
 

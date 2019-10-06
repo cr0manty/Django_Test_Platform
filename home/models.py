@@ -9,11 +9,10 @@ from tests.models import Test
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_date = models.DateField(blank=True, null=True)
-    about = models.TextField(blank=True)
+    about = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='static/img/users', null=True,
                               height_field=None, width_field=None,
                               blank=True, default='/static/img/user-default.png')
-    test = models.ManyToManyField(Test, related_name='test')
 
 
 @receiver(post_save, sender=User)
