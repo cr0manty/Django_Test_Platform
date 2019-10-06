@@ -20,7 +20,7 @@ class Test(models.Model):
         return reverse('add_comment_url', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if not self.slug:
             self.slug = (slugify_url(self.name) + '-' + str(int(time())))
         super().save(*args, **kwargs)
 
@@ -50,8 +50,8 @@ class Comment(models.Model):
 
 
 class UserTestPass(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    test = models.OneToOneField(Test, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
     correct_answer = models.IntegerField(default=0)
     amount_answer = models.IntegerField(default=0)
     correct_present = models.IntegerField(default=0)

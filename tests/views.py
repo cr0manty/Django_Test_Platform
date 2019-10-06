@@ -9,14 +9,18 @@ from .models import Test, Question, UserTestPass
 from .forms import CommentForm, TestForm, QuestionForm
 
 
-def get_pages(request):
+def get_pages(request, filter_tests=False):
     search = request.GET.get('search', '')
-    posts = Test.objects.filter(
-        Q(name__icontains=search)
-    ) if search \
-        else Test.objects.all()
+    if filter_tests:
+        tests = Test.objects.select_related(
+            'usertestpass').filter(usertestpass=request.user).all()
+    else:
+        tests = Test.objects.filter(
+            Q(name__icontains=search)
+        ) if search \
+            else Test.objects.all()
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(tests, 2)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
     return page
@@ -47,12 +51,12 @@ def get_pages_context(page, filter_test=False):
 
 def show_tests(request):
     page = get_pages(request)
-    return render(request, 'tests/test_list.html', context=get_pages_context(page))
+    return render(request, 'tests/test_list.html', context=get_pages_context(page, ))
 
 
 def show_filter_tests(request):
-    page = get_pages(request)
-    return render(request, 'tests/test_list.html', context=get_pages_context(page, True))
+    page = get_pages(request, True)
+    return render(request, 'tests/test_list.html', context=get_pages_context(page, ))
 
 
 class ShowTest(View):
