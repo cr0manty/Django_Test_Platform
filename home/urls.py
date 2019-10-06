@@ -9,5 +9,7 @@ urlpatterns = [
     path('registration/', RegisterUser.as_view(), name='registration_url'),
     path('logout/', LogoutUser.as_view(), name='logout_url'),
     path('user/<username>/', show_user, name='user_url'),
-    path('user/', redirect_to_user),
+    path('user/<username>/about', SetAbout.as_view(), name='about_set'),
+    path('user/<username>/set_img', set_profile_image, name='set_user_image'),
+    path('user/', redirect_to_user, name='user_redirect'),
 ]

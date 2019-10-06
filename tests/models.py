@@ -12,7 +12,7 @@ class Question(models.Model):
 
 
 class Test(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=128, blank=True, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     questions = models.ManyToManyField('Question', related_name='test')

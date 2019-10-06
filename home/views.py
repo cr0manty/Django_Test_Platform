@@ -45,8 +45,7 @@ class RegisterUser(View):
     def post(self, request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.get_user()
-            user.save()
+            form.save()
             return redirect('login_url')
         return redirect('registration_url')
 
@@ -60,9 +59,9 @@ class LogoutUser(LoginRequiredMixin, View):
 
 
 def show_user(request, username):
-    user = get_object_or_404(Profile, user__username__iexact=username)
+    profile = get_object_or_404(Profile, user__username__iexact=username)
     return render(request, 'home/user.html', context={
-        'user': user,
+        'profile': profile,
     })
 
 
@@ -70,3 +69,19 @@ def redirect_to_user(request):
     if request.user.is_authenticated:
         return redirect('user_url', username=request.user)
     return redirect('login_url')
+
+
+class SetAbout(View):
+    def get(self, request, username):
+        return redirect('user_redirect')
+
+    def post(self, request, username):
+        profile = Profile.objects.filter(user__username=username).first()
+        if profile is not None:
+            profile.about = request.POST.get('about')
+            profile.save()
+        return redirect('user_redirect')
+
+
+def set_profile_image(request, username):
+    pass

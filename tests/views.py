@@ -1,15 +1,15 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 
-from .forms import CommentForm, TestForm, QuestionForm
 from .models import Test
+from .forms import CommentForm, TestForm, QuestionForm
 
 
-def get_posts_pages(request):
+def get_pages(request):
     search = request.GET.get('search', '')
     posts = Test.objects.filter(
         Q(name__icontains=search)
@@ -29,7 +29,7 @@ def get_comments_pages(request, comments):
     return page
 
 
-def get_pages_context(page):
+def get_pages_context(page, filter_test=False):
     have_pages = page.has_other_pages()
     prev_url = '?page={}'.format(page.previous_page_number()) \
         if page.has_previous() else ''
@@ -40,13 +40,19 @@ def get_pages_context(page):
         'page': page,
         'have_pages': have_pages,
         'next_url': next_url,
-        'prev_url': prev_url
+        'prev_url': prev_url,
+        'filter': filter_test
     }
 
 
 def show_tests(request):
-    page = get_posts_pages(request)
+    page = get_pages(request)
     return render(request, 'tests/test_list.html', context=get_pages_context(page))
+
+
+def show_filter_tests(request):
+    page = get_pages(request)
+    return render(request, 'tests/test_list.html', context=get_pages_context(page, True))
 
 
 class ShowTest(View):

@@ -1,9 +1,9 @@
-        {% if page.object_list %}
+{% if page.object_list %}
 <div id="comment-show">
     <div class="container mt-3">
         <ul class="list-group list-group-flush">
             {% for comment in page.object_list %}
-            <li class="list-group-item comment-list" style="border: 1px;" id="comments_list">
+            <li class="list-group-item comment-list" id="comments_list">
                 <div class="row" style="color:white;">
                     <h5 class="col">
                         <a href="{% url 'user_url' username=comment.author %}" class="content-text">
@@ -16,6 +16,7 @@
                 <hr style="margin-top: 25px; margin-bottom: 5px;"/>
                 <p class="date_comment">{{ comment.date_create }}</p>
             </li>
+            <hr style="margin-top: 5px; margin-bottom: 5px;"/>
             {% endfor %}
         </ul>
         {% include 'includes/template_pages.html' %}

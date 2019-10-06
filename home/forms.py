@@ -30,17 +30,12 @@ class RegistrationForm(forms.Form):
     )
 
     birth_date = forms.DateField(
-        input_formats=['%d/%m/%Y'],
+        input_formats=['%Y-%m-%d'],
         label='Дата рождения',
         widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
     )
 
-    about_me = forms.CharField(
-        label='О себе',
-        widget=forms.Textarea(attrs={'class': 'form-control'})
-    )
-
-    def get_user(self):
+    def save(self):
         cd = self.cleaned_data
         user = User(
             username=cd.get('username'),
@@ -49,12 +44,13 @@ class RegistrationForm(forms.Form):
             last_name=cd.get('last_name')
         )
         user.set_password(cd.get('password'))
+        user.save()
         profile = Profile(
             user=user,
-            birth_date=self.birth_date,
-            about=self.about_me
+            birth_date=cd.get('birth_date'),
+            about=cd.get('about_me')
         )
-        return profile
+        profile.save()
 
     def clean(self):
         super().clean()
@@ -73,3 +69,5 @@ class LoginForm(forms.Form):
         label='Пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
+
+

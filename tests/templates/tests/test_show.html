@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="card mb-5">
+<div class="card mb-4">
     <div class="card-header">
         <div class="row container">
             <h1 class="col">{{ test.name }}</h1>
@@ -35,15 +35,5 @@
 
 {% endblock %}
 
-{% block script %}
-<script>
-   function comment_new_show(show) {
-        document.getElementById("edit_text").hidden = !show;
-        document.getElementById("comment_text").hidden = show;
-   }
-
-
-</script>
-{% endblock %}
 
 

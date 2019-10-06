@@ -3,13 +3,17 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from tests.models import Test
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(null=True, blank=True)
-    about = models.TextField(null=True)
-    image = models.ImageField(upload_to='static/img/users',
-                              height_field=None, width_field=None, max_length=100)
+    birth_date = models.DateField(blank=True, null=True)
+    about = models.TextField(blank=True)
+    image = models.ImageField(upload_to='static/img/users', null=True,
+                              height_field=None, width_field=None,
+                              blank=True, default='/static/img/user-default.png')
+    test = models.ManyToManyField(Test, related_name='test')
 
 
 @receiver(post_save, sender=User)

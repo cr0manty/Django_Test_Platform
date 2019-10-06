@@ -22,7 +22,7 @@ class TestForm(forms.ModelForm):
 
         def clean_slug(self):
             new_slug = self.cleaned_data.get('slug').lower()
-            if new_slug == 'create':
+            if new_slug == 'create' or new_slug == 'filter':
                 raise ValidationError('Slug may not be create')
             return new_slug
 

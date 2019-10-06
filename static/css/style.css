@@ -113,3 +113,37 @@ hr {
     display: block;
     border-bottom: none
 }
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-left: 1.5rem;
+  opacity: 0;
+  height: 100%;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.img-thumbnail {
+    padding: 0rem;
+    border: 1px solid rgb(121, 121, 121);
+    border-radius: 1rem;
+    max-width: 200px;
+    height: 200px;
+}
+
+.upload-btn-wrapper:hover {
+    opacity: 0.5;
+}
