@@ -45,7 +45,7 @@ class Question(models.Model):
 
 class Comment(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    author = models.OneToOneField(User, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
     date_create = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
 
@@ -56,8 +56,8 @@ class Comment(models.Model):
 
 
 class UserTestPass(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
-    test = models.OneToOneField(Test, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    test = models.ForeignKey(Test, on_delete=models.PROTECT)
     correct_answer = models.IntegerField()
     amount_answer = models.IntegerField()
     correct_present = models.IntegerField()

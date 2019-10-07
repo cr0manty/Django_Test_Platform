@@ -10,7 +10,7 @@
 <h1 class="text-center">Поздравлем! Тест успешно пройден!</h1>
 <div class="row text-center">
     <div class="col">
-        <img src="{{ request.user.profile.image }}"
+        <img src="{{ request.user.image.url }}"
              class="img-thumbnail mb-3 mt-3" id="profile_image"/>
         <h2>{{ request.user.username |title }}</h2>
         <h3>Вы набрали {{ correct_present }}%</h3>

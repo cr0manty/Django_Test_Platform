@@ -23,6 +23,7 @@
         <div class="col-6">
             <p> Имя: <br>{{ user.first_name }}</p>
             <p> Фамилия: <br>{{ user.last_name }}</p>
+            <p> Email: <br>{{ user.email }}</p>
             <p> Дата рождения:
                 <br>{% if user.birth_date == None %}Не указано{% else %}{{ user.birth_date }}{% endif %}</p>
             {% if request.user.is_staff %}

@@ -155,3 +155,9 @@ hr {
 .pull-right {
     float: right !important;
 }
+
+#comments_list {
+   border: 1px solid rgb(81, 81, 81);
+   border-radius: 1rem;
+   margin-bottom: 20px;
+}

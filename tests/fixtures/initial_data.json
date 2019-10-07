@@ -1,0 +1,178 @@
+[
+  {
+    "model": "home.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$O2nm84V0D2Sy$q/hWgKlSO57ZqBA88mqcuFapcf0Q2S1ospsHEuAKG1k=",
+      "last_login": "2019-10-07T19:39:56.377Z",
+      "is_superuser": true,
+      "username": "cr0manty",
+      "first_name": "Денис",
+      "last_name": "Дудка",
+      "email": "admin@mail.ru",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2019-10-07T19:36:39.177Z",
+      "birth_date": "1999-02-23",
+      "about": "My name is Denis",
+      "image": "user-default.png",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "tests.test",
+    "pk": 1,
+    "fields": {
+      "name": "Тест на IQ",
+      "slug": "test-na-iq-1570473918",
+      "author": 1,
+      "passes_number": 1,
+      "description": "5 вопросов для разминки мозга",
+      "date_create": "2019-10-07T18:45:18.246Z"
+    }
+  },
+  {
+    "model": "tests.test",
+    "pk": 2,
+    "fields": {
+      "name": "IQ тест",
+      "slug": "iq-test-1570474299",
+      "author": 1,
+      "passes_number": 0,
+      "description": "Второй тест на IQ",
+      "date_create": "2019-10-07T18:51:39.905Z"
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 1,
+    "fields": {
+      "question": "Каким числом следует заменить знак вопроса?",
+      "answers": "1;4;7;12",
+      "correct": "4",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 2,
+    "fields": {
+      "question": "Что здесь является лишним?",
+      "answers": "Лев;Тигр;Гиена;Гепард",
+      "correct": "3",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 3,
+    "fields": {
+      "question": "Б Г Е Ж И ? - Продолжи последовательность.",
+      "answers": "К;М;Н;Л",
+      "correct": "1",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 4,
+    "fields": {
+      "question": "ЛОТК МОСЬГ - Определите газвание города, зашифрованого в анаграмме. В какой стране он находится?",
+      "answers": "Чехия;Швеция;Украина;США",
+      "correct": "1",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 5,
+    "fields": {
+      "question": "Что значит слово “умиротворять”?",
+      "answers": "Устанавливать;Успокаивать;Выстаивать;Обтесывать",
+      "correct": "2",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 6,
+    "fields": {
+      "question": "Какое число лишнее?",
+      "answers": "9514;2718;4519;6328",
+      "correct": "2",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 7,
+    "fields": {
+      "question": "Каким числом следует заменить знак вопроса?  1, 2, 4, 6, 9, 12, 15, 19, 23, 27, 31, ?",
+      "answers": "22;56;35;36",
+      "correct": "4",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 8,
+    "fields": {
+      "question": "Упростите выражение:  24/18:56/9:3/34",
+      "answers": "7/8;3/4;3/7;17/7",
+      "correct": "4",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 9,
+    "fields": {
+      "question": "Сколько стоит теннисный мяч, если вместе с ракеткой он продается за $1,10, при этом ракетка дороже мяча на $1.",
+      "answers": "0,10$;0,20$;1$;0,05$",
+      "correct": "4",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 10,
+    "fields": {
+      "question": "За сколько минут 100 текстильных машин изготовят 100 вещей при условии, что пяти машинам требуется пять минут на изготовление пяти вещей.",
+      "answers": "100;5;1;47",
+      "correct": "2",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.comment",
+    "pk": 1,
+    "fields": {
+      "test": 2,
+      "author": 1,
+      "date_create": "2019-10-07T21:19:56.551Z",
+      "text": "Легкий тест!"
+    }
+  },
+  {
+    "model": "tests.comment",
+    "pk": 2,
+    "fields": {
+      "test": 2,
+      "author": 1,
+      "date_create": "2019-10-07T21:20:11.361Z",
+      "text": "Привет!)"
+    }
+  },
+  {
+    "model": "tests.usertestpass",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "test": 1,
+      "correct_answer": 2,
+      "amount_answer": 5,
+      "correct_present": 40
+    }
+  }
+]
