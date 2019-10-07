@@ -4,9 +4,12 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
+from django.contrib.auth import get_user_model
 
 from .models import Test, Question, UserTestPass
 from .forms import CommentForm, TestForm, QuestionForm
+
+User = get_user_model()
 
 
 def get_pages(request, filter_tests=False):
@@ -50,12 +53,16 @@ def get_pages_context(page):
 
 def show_tests(request):
     page = get_pages(request)
-    return render(request, 'tests/test_list.html', context=get_pages_context(page, ))
+    context = {'my_filter': False}
+    context.update(get_pages_context(page))
+    return render(request, 'tests/test_list.html', context=context)
 
 
 def show_filter_tests(request):
     page = get_pages(request, True)
-    return render(request, 'tests/test_list.html', context=get_pages_context(page, ))
+    context = {'my_filter': True}
+    context.update(get_pages_context(page))
+    return render(request, 'tests/test_list.html', context=context)
 
 
 class ShowTest(View):
@@ -85,6 +92,7 @@ class ShowTest(View):
                 )
         context = {
             'test': test,
+            'form': CommentForm(),
             'question': QuestionForm()
         }
         page = get_comments_pages(request, test.comment_set.all())
@@ -111,9 +119,6 @@ class CreateTest(LoginRequiredMixin, View):
 
 
 class AddComment(LoginRequiredMixin, View):
-    def get(self, request, slug):
-        raise Http404
-
     def post(self, request, slug):
         test = Test.objects.get(slug__iexact=slug)
         form = CommentForm(request.POST)

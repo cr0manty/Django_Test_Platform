@@ -5,11 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate
 
 from .forms import *
-from .models import Profile
 
 
 def home_page(request):
-    return render(request, 'home/index.html')
+    return redirect('test_list')
 
 
 class LoginUser(View):
@@ -63,9 +62,9 @@ class LogoutUser(LoginRequiredMixin, View):
 
 
 def show_user(request, username):
-    profile = get_object_or_404(Profile, user__username__iexact=username)
+    user = get_object_or_404(User, username__iexact=username)
     return render(request, 'home/user.html', context={
-        'profile': profile,
+        'user': user,
         'form': ImageForm()
     })
 
@@ -78,10 +77,10 @@ def redirect_to_user(request):
 
 class SetAbout(View):
     def post(self, request, username):
-        profile = Profile.objects.filter(user__username=username).first()
-        if profile is not None:
-            profile.about = request.POST.get('about')
-            profile.save()
+        user = User.objects.filter(username=username).first()
+        if user is not None:
+            user.about = request.POST.get('about')
+            user.save()
         return redirect('user_redirect')
 
 
@@ -91,8 +90,8 @@ class SetImage(View):
         if data.is_valid():
             image = data.cleaned_data.get('image')
             image._name = '{}_image.{}'.format(username, image._name.split('.')[-1])
-            profile = Profile.objects.filter(user__username=username).first()
-            profile.image = image
-            profile.save()
+            user = User.objects.filter(username=username).first()
+            user.image = image
+            user.save()
         return redirect('user_redirect')
 

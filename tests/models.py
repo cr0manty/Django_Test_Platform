@@ -1,8 +1,11 @@
 from django.db import models
 from django.shortcuts import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
 from slugify import slugify_url
 from time import time
+
+User = get_user_model()
 
 
 class Test(models.Model):
@@ -24,6 +27,9 @@ class Test(models.Model):
             self.slug = (slugify_url(self.name) + '-' + str(int(time())))
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ['-date_create']
         verbose_name = 'Тест'
@@ -39,7 +45,7 @@ class Question(models.Model):
 
 class Comment(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.OneToOneField(User, on_delete=models.PROTECT)
     date_create = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
 
@@ -50,8 +56,8 @@ class Comment(models.Model):
 
 
 class UserTestPass(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    correct_answer = models.IntegerField(default=0)
-    amount_answer = models.IntegerField(default=0)
-    correct_present = models.IntegerField(default=0)
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    test = models.OneToOneField(Test, on_delete=models.PROTECT)
+    correct_answer = models.IntegerField()
+    amount_answer = models.IntegerField()
+    correct_present = models.IntegerField()

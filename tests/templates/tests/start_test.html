@@ -10,7 +10,6 @@
 <h1 class="mb-5" style="text-align: center;">{{ name }}</h1>
 <form action="{% url 'start_test' slug=slug %}" method="POST">
     {% csrf_token %}
-
     {% for question in questions %}
     <div class="card-body">
         <div class="form-group">
@@ -24,7 +23,7 @@
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-xs-4">
-                        <input type="radio" name="{{ forloop.parentloop.counter }}" value="1">
+                        <input type="radio" name="{{ forloop.parentloop.counter }}" value="{{ forloop.counter }}">
                     </div>
                     <div class="col-xs-7 ml-3">
                         <p class="text-break" style="color: white;">{{ answer }}</p>
@@ -33,7 +32,6 @@
             </li>
             {% endfor %}
         </ul>
-
     </div>
     <br>
     {% endfor %}

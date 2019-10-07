@@ -50,22 +50,22 @@
         <p id="comments_label" class="additional-color">Коментарии:</p>
         <hr/>
         {% include 'includes/comments.html' %}
+        {% include 'includes/modal_comment_form.html' %}
     </div>
-    {% include 'includes/modal_comment_form.html' %}
 </div>
 
 {% endblock %}
 
 {% block script %}
 function show_hide(button) {
-    if (button.text == "Добавить вопрос") {
-        button.text = "Скрыть";
-        document.getElementById("add_question").hidden = false;
-    }
-    else if(button.text == "Скрыть") {
-        button.text = "Добавить вопрос";
-        document.getElementById("add_question").hidden = true;
-    }
+if (button.text == "Добавить вопрос") {
+button.text = "Скрыть";
+document.getElementById("add_question").hidden = false;
+}
+else if(button.text == "Скрыть") {
+button.text = "Добавить вопрос";
+document.getElementById("add_question").hidden = true;
+}
 }
 {% endblock %}
 

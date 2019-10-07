@@ -2,48 +2,41 @@
 {% load static %}
 
 {% block title %}
-{{ profile.user.username|title }}
+{{ user.username|title }}
 {% endblock %}
 
 {% block content %}
-{% if profile.birth_date == None %}
-<div class="alert alert-danger" role="alert">
-    Дата рождения не указана!
-    <a href="" onclick="" class="alert-link">Указать</a>
-</div>
-{% endif %}
-
 <div class="container mt-5">
     <div class="row">
         <div class="col">
             <div class="upload-btn-wrapper">
-                <form action="{% url 'set_user_image' username=profile.user.username %}"
+                <form action="{% url 'set_user_image' username=user.username %}"
                       method="POST" id="image_change" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <img src="{{ profile.image.url }}"
+                    <img src="{{ user.image.url }}"
                          class="img-thumbnail" id="profile_image"/>
                     {{ form.image }}
                 </form>
             </div>
-            <h1 align="center" style="margin-top: 0.8rem;">{{ profile.user.username|title }}</h1>
+            <h1 align="center" style="margin-top: 0.8rem;">{{ user.username|title }}</h1>
         </div>
         <div class="col-6">
-            <p> Имя: <br>{{ profile.user.first_name }}</p>
-            <p> Фамилия: <br>{{ profile.user.last_name }}</p>
+            <p> Имя: <br>{{ user.first_name }}</p>
+            <p> Фамилия: <br>{{ user.last_name }}</p>
             <p> Дата рождения:
-                <br>{% if profile.birth_date == None %}Не указано{% else %}{{ profile.birth_date }}{% endif %}</p>
+                <br>{% if user.birth_date == None %}Не указано{% else %}{{ user.birth_date }}{% endif %}</p>
             {% if request.user.is_staff %}
             <a href="/admin" class="btn btn-outline-danger">Админ</a>
             {% endif %}
 
         </div>
     </div>
-    <form action="{% url 'about_set' username=profile.user %}" method="POST" id="about_form">
+    <form action="{% url 'about_set' username=user.username %}" method="POST" id="about_form">
         {% csrf_token %}
         <label for="about" class="mt-3">О себе</label> <br>
         <textarea name="about" id="about" cols="60" rows="10"
-                  readonly>{% if profile.about != None %}{{ profile.about }}{% endif %}</textarea>
-        {% if request.user.username == profile.user.username %}
+                  readonly>{% if user.about != None %}{{ user.about }}{% endif %}</textarea>
+        {% if request.user.username == user.username %}
         <input class="btn btn-danger mb-3" type="button" id="change_button"
                onclick='about_me(this)' value="Изменить">
         {% endif %}

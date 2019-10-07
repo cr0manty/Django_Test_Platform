@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.auth.models import User
-from .models import Profile
 from django.core.validators import validate_email, ValidationError
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 def validate_username(value):
@@ -43,6 +44,11 @@ class RegistrationForm(forms.Form):
         label='Повторите пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
+    birth_date = forms.DateField(
+        input_formats=['%Y-%m-%d'],
+        label='Дата рождения',
+        widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
 
     def save(self):
         cd = self.cleaned_data
@@ -50,12 +56,10 @@ class RegistrationForm(forms.Form):
             username=cd.get('username'),
             email=cd.get('email'),
             first_name=cd.get('first_name'),
-            last_name=cd.get('last_name')
+            last_name=cd.get('last_name'),
+            birth_date=cd.get('birth_date')
         )
         user.set_password(cd.get('password'))
-        user.profile = Profile(
-            user=user
-        )
         user.save()
 
     def clean(self):
@@ -81,7 +85,7 @@ class LoginForm(forms.Form):
         super().clean()
         cd = self.cleaned_data
         user = User.objects.filter(username=cd.get('username')).first()
-        if not user.check_password(cd.get('password')):
+        if user is not None and not user.check_password(cd.get('password')):
             raise ValidationError('Пароль и имя пользователя не совпадают')
         return cd
 
@@ -93,9 +97,3 @@ class ImageForm(forms.Form):
             'onchange': 'submit();'
         }),
     )
-
-    # birth_date = forms.DateField(
-    #     input_formats=['%Y-%m-%d'],
-    #     label='Дата рождения',
-    #     widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
-    # )

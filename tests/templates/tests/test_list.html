@@ -11,7 +11,11 @@
 <div class="row mb-4">
     <h2 class="col">Тесты</h2>
     {% if request.user.is_authenticated %}
-    <a href="{% url 'filter_tests' %}" onclick="filter_show(this)" class="btn btn-link">Пройденные</a>
+    {% if my_filter %}
+    <a href="{% url 'test_list' %}" class="btn btn-link col-xs-5">Все</a>
+    {% else %}
+    <a href="{% url 'filter_tests' %}" class="btn btn-link">Пройденные</a>
+    {% endif %}
     <a href="{% url 'create_test' %}" class="btn btn-link col-xs-5">Создать</a>
     {% endif %}
 </div>
@@ -24,7 +28,10 @@
 {% else %}
 <div class="text-center">
     <h1 id="no_posts" class="text-muted center">
-        Тесты еще не созданы или поиск не дал результатов. Создать тест?
+        Тесты еще не созданы или поиск не дал результатов.
+        {% if request.user.is_authenticated %}
+        Создать тест?
+        {% endif %}
     </h1>
     {% if request.user.is_authenticated %}
     <a href="{% url 'create_test' %}" class="btn btn-danger">Создать</a>
@@ -40,14 +47,14 @@
 
 {% block script %}
 function filter_show(button) {
-    if(button.text == "Пройденные"){
-        button.text = "Все"
-        button.href = "{% url 'test_list' %}";
-    }
-    else if(button.text == "Все") {
-        button.text = "Пройденные"
-        button.href = "{% url 'filter_tests' %}";
-    }
-    return button;
+if(button.text == "Пройденные"){
+button.text = "Все"
+button.href = "{% url 'test_list' %}";
+}
+else if(button.text == "Все") {
+button.text = "Пройденные"
+button.href = "{% url 'filter_tests' %}";
+}
+return button;
 }
 {% endblock %}
