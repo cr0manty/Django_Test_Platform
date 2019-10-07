@@ -18,12 +18,11 @@
         <div class="col">
             <div class="upload-btn-wrapper">
                 <form action="{% url 'set_user_image' username=profile.user.username %}"
-                      method="POST" id="image_change">
+                      method="POST" id="image_change" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <img src="{{ profile.image }}"
+                    <img src="{{ profile.image.url }}"
                          class="img-thumbnail" id="profile_image"/>
-                    <input type="file" accept=".png, .jpg, .jpeg"
-                           onchange="onFileSelected(event); submit();"/>
+                    {{ form.image }}
                 </form>
             </div>
             <h1 align="center" style="margin-top: 0.8rem;">{{ profile.user.username|title }}</h1>
@@ -66,19 +65,5 @@ function about_me(button) {
         document.getElementById("about_form").submit();
     }
 }
-
-function onFileSelected(event) {
-    var selectedFile = event.target.files[0];
-    var reader = new FileReader();
-
-    var imgtag = document.getElementById("profile_image");
-    imgtag.title = selectedFile.name;
-
-    reader.onload = function(event) {
-        imgtag.src = event.target.result;
-    };
-    reader.readAsDataURL(selectedFile);
-}
-
 {% endblock %}
 

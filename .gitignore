@@ -3,3 +3,5 @@
 staticfiles/
 *.pyc
 venv/
+media/*
+!media/user-default.png

@@ -20,6 +20,8 @@ class LoginUser(View):
         })
 
     def post(self, request):
+        if request.user.is_authenticated:
+            return redirect('user_redirect')
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
@@ -30,9 +32,9 @@ class LoginUser(View):
             if user is not None:
                 login(request, user)
                 return redirect('user_url', cd.get('username'))
-            else:
-                return redirect('login_url')
-        return redirect('home_url')
+        return render(request, 'home/auth/login.html', context={
+            'form': form
+        })
 
 
 class RegisterUser(View):
@@ -47,7 +49,9 @@ class RegisterUser(View):
         if form.is_valid():
             form.save()
             return redirect('login_url')
-        return redirect('registration_url')
+        return render(request, 'home/auth/registration.html', context={
+            'form': form
+        })
 
 
 class LogoutUser(LoginRequiredMixin, View):
@@ -62,6 +66,7 @@ def show_user(request, username):
     profile = get_object_or_404(Profile, user__username__iexact=username)
     return render(request, 'home/user.html', context={
         'profile': profile,
+        'form': ImageForm()
     })
 
 
@@ -80,5 +85,14 @@ class SetAbout(View):
         return redirect('user_redirect')
 
 
-def set_profile_image(request, username):
-    return redirect('user_redirect')
+class SetImage(View):
+    def post(self, request, username):
+        data = ImageForm(request.POST, request.FILES)
+        if data.is_valid():
+            image = data.cleaned_data.get('image')
+            image._name = '{}_image.{}'.format(username, image._name.split('.')[-1])
+            profile = Profile.objects.filter(user__username=username).first()
+            profile.image = image
+            profile.save()
+        return redirect('user_redirect')
+

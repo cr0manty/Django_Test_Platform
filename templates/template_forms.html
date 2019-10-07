@@ -4,9 +4,11 @@
 {% for field in form %}
 <div class="form-group">
     {% if field.errors %}
+    {% for error in field.errors %}
     <div class="alert alert-danger">
-        {{ field.errors.as_p }}
+        {{ error }}
     </div>
+    {% endfor %}
     {% endif %}
 
     {{ field.label }}

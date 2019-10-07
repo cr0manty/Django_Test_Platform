@@ -22,3 +22,14 @@ urlpatterns = [
     path('tests/', include('tests.urls')),
     path('', include('social_django.urls', namespace='social')),
 ]
+from django.conf import settings
+from django.views.static import serve
+
+# ... the rest of your URLconf goes here ...
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('media/<path>', serve, {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+   ]

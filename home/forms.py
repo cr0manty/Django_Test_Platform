@@ -1,6 +1,19 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
+from django.core.validators import validate_email, ValidationError
+
+
+def validate_username(value):
+    user = User.objects.filter(username=value).first()
+    if user is not None:
+        raise ValidationError('Пользователь с таким логином уже зарегестрирован')
+
+
+def validate_login(value):
+    user = User.objects.filter(username=value).first()
+    if user is None:
+        raise ValidationError('Пользователь с таким логином еще не зарегестрирован')
 
 
 class RegistrationForm(forms.Form):
@@ -14,11 +27,13 @@ class RegistrationForm(forms.Form):
     )
     username = forms.CharField(
         label='Логин',
-        widget=forms.TextInput(attrs={'class': 'form-control'})
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        validators=[validate_username]
     )
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        validators=[validate_email]
     )
     password = forms.CharField(
         label='Пароль',
@@ -55,10 +70,32 @@ class LoginForm(forms.Form):
     username = forms.CharField(
         label='Логин',
         widget=forms.TextInput(attrs={'class': 'form-control'}),
+        validators=[validate_login]
     )
     password = forms.CharField(
         label='Пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
+    def clean(self):
+        super().clean()
+        cd = self.cleaned_data
+        user = User.objects.filter(username=cd.get('username')).first()
+        if not user.check_password(cd.get('password')):
+            raise ValidationError('Пароль и имя пользователя не совпадают')
+        return cd
 
+
+class ImageForm(forms.Form):
+    image = forms.ImageField(
+        widget=forms.FileInput(attrs={
+            'accept': '.png, .jpg, .jpeg',
+            'onchange': 'submit();'
+        }),
+    )
+
+    # birth_date = forms.DateField(
+    #     input_formats=['%Y-%m-%d'],
+    #     label='Дата рождения',
+    #     widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
+    # )

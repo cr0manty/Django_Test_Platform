@@ -16,20 +16,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" href="{% static 'img/logo.ico' %}">
     <style>
     {% block custom_css %}
     {% endblock %}
-
     </style>
     <script type="text/javascript">
     {% block script %}
     {% endblock %}
-
     </script>
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -62,7 +60,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'user_url' username=request.user %}">{{ request.user|title }}</a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout_url' %}">Выйти</a>
             </li>
@@ -85,8 +82,7 @@
         </div>
     </div>
 </div>
-
-<footer class="navbar navbar-default navbar-fixed-bottom"  id="footer">
+<footer class="navbar navbar-default navbar-fixed-bottom" id="footer">
     <div class="container">
         <p>© 2019 -
             <a class="navbar-text pull-left" href="mailto:denys.dudka.mail@gmail.com">
