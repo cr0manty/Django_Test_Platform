@@ -1,19 +1,29 @@
 # Test Platform
-### Тестовое задание PYTHON 
-    
-##### Написать мини-платформу для прохождения/создания тестов
 
-1. регистрация/авторизация пользователей
-2. возможность авторизации через соц сеть (одна любая на выбор, можно больше)
-3. добавить личный кабинет - добавить фото профиля, имя, фамилию, дату рождения, информацию о себе
-4. пользователь может создать свой тест (минимум 5 вопросов, на каждый вопрос 4 варианта ответов, один правильный; имя теста, описание, кол-во прохождений)
-5. создать страницу с просмотров всех тестов, фильтр по пройденным, поиск по названию, сортировка по дате добавления
-6. страница детального отображения теста - название, описание, кол-во прохождений, комментарии, кнопка "пройти тест"
-    * если тест пройден, показывать результат теста (кол-во правильных ответов и результат в %)
-    * прохождение теста может быть сразу на одной странице или каждый вопрос отдельно.
-7. тесты можно комментировать
-8. создать фикстуру или миграцию которая будет добавлять два теста
-9. настроить django админку для просмотра пользователей, в детальном отображении пользователя инлайнами выводить результаты тестов.
-<br>
-бэк - python/django (версии по вкусу)<br>
-фронт - минимально, можно бутстрап/jquery
+#### Platform for passing / creating tests
+
+1. user registration / authorization
+2. The possibility of authorization through the social network.
+3. add a personal account - add a profile photo, name, surname, 
+date of birth, information about yourself
+4. the user can create his own test (at least 5 questions,
+ 4 answers for each question, one correct; test name, description, number for search)
+5. create a page with a view of all tests, filter 
+by name, sort by access
+6. page for a detailed presentation of the test - 
+name, description, comments, button "pass the test"
+* if the test is passed, show the test result 
+(number of correct answers and result in %)
+Passing the test can be done separately.
+7. tests can be commented
+8. create fixture or migration
+9. configure django admin panel for viewing users,
+ in a detailed display of the user inlines display test results.
+ 
+#### Rest Framework
+ ##### GET
+ * `/api/users/` - all users info
+ * `/api/users/cr0manty/` - one user info
+ * `/api/users/cr0manty/comments/` - user comments
+ * `/api/users/cr0manty/tests/` - user created tests
+ * `/api/tests/` - all tests

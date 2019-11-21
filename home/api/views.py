@@ -21,13 +21,15 @@ class UserInfoAPI(APIView):
 # TODO
 class UserCommentsAPI(APIView):
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        serializer = UserCommentsSerializer(user.comments)
+        username = self.kwargs.get('username')
+        comments = Comment.objects.filter(author__username=username).all()
+        serializer = UserCommentsSerializer(comments)
         return Response(serializer.data)
 
 
 class UserTestsAPI(APIView):
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        serializer = UserTestSerializer(user.tests)
-        return Response(serializer.data)
+        username = self.kwargs.get('username')
+        tests = Test.objects.filter(author__username=username).all()
+        serializer = UserTestSerializer(tests)
+        return Response({'tests': serializer.data})

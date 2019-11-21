@@ -17,7 +17,7 @@ class UserCommentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('test', 'text')
+        fields = ( 'date_create', 'text')
 
 
 class UserTestSerializer(serializers.ModelSerializer):
