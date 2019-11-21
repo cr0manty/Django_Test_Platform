@@ -8,3 +8,8 @@ class User(AbstractUser):
     image = models.ImageField(upload_to='', null=True,
                               height_field=None, width_field=None,
                               blank=True, default='user-default.png')
+
+    class Meta:
+        ordering = ['-username']
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'

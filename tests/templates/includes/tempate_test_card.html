@@ -1,7 +1,7 @@
 <div class="card mb-5">
     <div class="card-header">
         <h1 class="card-title content-text" style="margin-bottom: 5px;">{{ test.name }}</h1>
-        <p id="author_post" style="margin-top: 0.1rem">
+        <p id="author_post" style="margin-top: 0.1rem; color: #868383;">
             Автор:
             <a class="author_link" href="{% url 'user_url' username=post.author %}">
                 {{ test.author }}
@@ -12,7 +12,7 @@
         <p class="card-text content-text">{{ test.description|truncatewords:30 }}</p>
         <a href="{{ test.get_absolute_url }}" class="btn btn-danger">Просмотреть</a>
     </div>
-    <div class="card-footer text-muted">
+    <div class="card-footer text-muted" style="color: #868383;">
         <p class="date_comment">{{ test.date_create }}</p>
     </div>
 </div>

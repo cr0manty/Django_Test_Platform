@@ -1,20 +1,7 @@
 from django import forms
-from django.core.validators import validate_email, ValidationError
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-
-
-def validate_username(value):
-    user = User.objects.filter(username=value).first()
-    if user is not None:
-        raise ValidationError('Пользователь с таким логином уже зарегестрирован')
-
-
-def validate_login(value):
-    user = User.objects.filter(username=value).first()
-    if user is None:
-        raise ValidationError('Пользователь с таким логином еще не зарегестрирован')
 
 
 class RegistrationForm(forms.Form):
@@ -29,12 +16,10 @@ class RegistrationForm(forms.Form):
     username = forms.CharField(
         label='Логин',
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        validators=[validate_username]
     )
     email = forms.EmailField(
         label='Email',
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
-        validators=[validate_email]
     )
     password = forms.CharField(
         label='Пароль',
@@ -50,31 +35,32 @@ class RegistrationForm(forms.Form):
         widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
     )
 
-    def save(self):
-        cd = self.cleaned_data
-        user = User(
-            username=cd.get('username'),
-            email=cd.get('email'),
-            first_name=cd.get('first_name'),
-            last_name=cd.get('last_name'),
-            birth_date=cd.get('birth_date')
-        )
-        user.set_password(cd.get('password'))
-        user.save()
+    def save(self, commit=True):
+        password = self.cleaned_data.get('password')
+        self.set_password(password)
+        if commit:
+            super().save()
 
-    def clean(self):
-        super().clean()
-        cd = self.cleaned_data
-        if cd.get('password') != cd.get('password_confirm'):
-            self.add_error('password_confirm', 'Пароли не совпадают!')
-        return cd
+    def clean_password_confirm(self):
+        password1 = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password_confirm')
+
+        if password1 != password2:
+            raise forms.ValidationError('Пароли не совпадают')
+        return password2
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        user = User.objects.filter(username=username).first()
+        if user is not None:
+            raise forms.ValidationError('Пользователь с таким логином уже зарегестрирован')
+        return username
 
 
 class LoginForm(forms.Form):
     username = forms.CharField(
         label='Логин',
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        validators=[validate_login]
     )
     password = forms.CharField(
         label='Пароль',
@@ -82,12 +68,16 @@ class LoginForm(forms.Form):
     )
 
     def clean(self):
-        super().clean()
-        cd = self.cleaned_data
-        user = User.objects.filter(username=cd.get('username')).first()
-        if user is not None and not user.check_password(cd.get('password')):
-            raise ValidationError('Пароль и имя пользователя не совпадают')
-        return cd
+        user = User.objects.filter(username=self.username).first()
+        if user is not None and not user.check_password(self.password):
+            raise forms.ValidationError('Пароль и имя пользователя не совпадают')
+        return super().clean()
+
+    def clean_username(self):
+        user = User.objects.filter(username=self.username).first()
+        if user is None:
+            raise forms.ValidationError('Пользователь с таким логином еще не зарегестрирован')
+        return self.username
 
 
 class ImageForm(forms.Form):
