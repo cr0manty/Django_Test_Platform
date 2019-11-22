@@ -62,8 +62,8 @@ class Comment(models.Model):
 
 
 class UserTestPass(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    test = models.ForeignKey(Test, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, related_name='result', on_delete=models.PROTECT)
+    test = models.ForeignKey(Test, related_name='result', on_delete=models.PROTECT)
     correct_answer = models.IntegerField()
     amount_answer = models.IntegerField()
     correct_present = models.IntegerField()

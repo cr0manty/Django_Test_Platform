@@ -68,16 +68,19 @@ class LoginForm(forms.Form):
     )
 
     def clean(self):
-        user = User.objects.filter(username=self.username).first()
-        if user is not None and not user.check_password(self.password):
+        password = self.cleaned_data.get('password')
+        username = self.cleaned_data.get('username')
+
+        user = User.objects.filter(username=username).first()
+        if user is not None and not user.check_password(password):
             raise forms.ValidationError('Пароль и имя пользователя не совпадают')
         return super().clean()
 
     def clean_username(self):
-        user = User.objects.filter(username=self.username).first()
-        if user is None:
+        username = self.cleaned_data.get('username')
+        if not User.objects.filter(username=username).count():
             raise forms.ValidationError('Пользователь с таким логином еще не зарегестрирован')
-        return self.username
+        return username
 
 
 class ImageForm(forms.Form):

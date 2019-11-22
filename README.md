@@ -25,5 +25,6 @@ Passing the test can be done separately.
  * `/api/users/` - all users info
  * `/api/users/cr0manty/` - one user info
  * `/api/users/cr0manty/comments/` - user comments
- * `/api/users/cr0manty/tests/` - user created tests
+ * `/api/users/cr0manty/tests/created/` - user created tests
+ * `/api/users/cr0manty/tests/pass` - user passed tests
  * `/api/tests/` - all tests

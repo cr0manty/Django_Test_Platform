@@ -1,15 +1,32 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from django.db.models import Q
+from rest_framework.response import Response
 
 from home.models import User
-from tests.models import Test, Comment
+from tests.models import Test, Comment, UserTestPass
 
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        style={'input_type': 'password'}
+    )
+    lookup_field = 'username'
+
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name',
-                  'email', 'is_staff', 'date_joined',
+        fields = ('id', 'username', 'first_name', 'last_name',
+                  'email', 'password', 'is_staff', 'date_joined',
                   'birth_date', 'about', 'image')
+        read_only_fields = ('id', 'is_staff', 'date_joined')
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class UserCommentsSerializer(serializers.ModelSerializer):
@@ -17,7 +34,7 @@ class UserCommentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ( 'date_create', 'text')
+        fields = ('id', 'test', 'date_create', 'text')
 
 
 class UserTestSerializer(serializers.ModelSerializer):
@@ -26,6 +43,15 @@ class UserTestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('name', 'slug', 'date_create',
+        fields = ('id', 'name', 'slug', 'date_create',
                   'passes_number', 'description',
                   'questions', 'comments')
+
+
+class UserTestResultSerializer(serializers.ModelSerializer):
+    test = serializers.SlugRelatedField(many=False, slug_field="name", read_only=True)
+
+    class Meta:
+        model = UserTestPass
+        fields = ('id', 'test', 'correct_answer',
+                  'amount_answer', 'correct_present')

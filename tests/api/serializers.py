@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from tests.models import Test
+from tests.models import Test, UserTestPass
 
 
 class TestSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,6 +10,16 @@ class TestSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('name', 'slug', 'author', 'date_create',
-                  'passes_number', 'description',
-                  'questions', 'comments')
+        fields = ('id', 'name', 'slug', 'author',
+                  'date_create', 'passes_number',
+                  'description', 'questions', 'comments')
+
+
+class UserTestResultSerializer(serializers.ModelSerializer):
+    test = serializers.SlugRelatedField(many=False, slug_field="name", read_only=True)
+    user = serializers.SlugRelatedField(many=False, slug_field="username", read_only=True)
+
+    class Meta:
+        model = UserTestPass
+        fields = ('id', 'test', 'user', 'correct_answer',
+                  'amount_answer', 'correct_present')

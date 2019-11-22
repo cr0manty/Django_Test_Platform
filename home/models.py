@@ -7,7 +7,11 @@ class User(AbstractUser):
     about = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='', null=True,
                               height_field=None, width_field=None,
-                              blank=True, default='user-default.png')
+                              blank=True)
+
+    def save(self, *args, **kwargs):
+        self.set_password(self.password)
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-username']
