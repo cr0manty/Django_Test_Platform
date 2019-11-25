@@ -5,6 +5,7 @@ defusedxml==0.6.0
 Django==2.2.6
 djangorestframework==3.10.3
 idna==2.8
+mysqlclient==1.4.6
 oauthlib==3.1.0
 Pillow==6.2.1
 PyJWT==1.7.1

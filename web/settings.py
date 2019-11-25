@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '19p+cqcuw%$zyhhaptmxdd+b^lp@=83)l%n_+7@9grpuai&8+9'
+SECRET_KEY = '423scms(*fdshsw%$zyhhaptsdamxdd+b^lp@=83)l%n_+7@9grpuai&8+9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,8 +93,18 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'CONN_MAX_AGE': 0,
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_platform',
+        'USER': 'root',
+        'PASSWORD': '1',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+           'init_command': 'SET default_storage_engine=InnoDB',
+           'charset': 'utf8',
+           'use_unicode': True,
+        },
     }
 }
 
@@ -130,7 +140,7 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 

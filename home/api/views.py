@@ -25,9 +25,6 @@ class UserCommentsAPI(APIView):
         serializer = UserCommentsSerializer(comments, many=True)
         return Response({username: {'comments': serializer.data}})
 
-    def post(self, request, *args, **kwargs):
-        username = self.kwargs.get('username')
-
 
 class UserCommentAPI(APIView):
     def get(self, request, *args, **kwargs):

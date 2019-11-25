@@ -35,6 +35,10 @@ class UserCommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'test', 'date_create', 'text')
+        read_only_fields = ('test', 'date_create')
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class UserTestSerializer(serializers.ModelSerializer):
@@ -55,3 +59,4 @@ class UserTestResultSerializer(serializers.ModelSerializer):
         model = UserTestPass
         fields = ('id', 'test', 'correct_answer',
                   'amount_answer', 'correct_present')
+

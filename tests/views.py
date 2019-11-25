@@ -73,7 +73,7 @@ class ShowTest(View):
             'form': CommentForm(),
             'question': QuestionForm()
         }
-        page = get_comments_pages(request, test.comment_set.all())
+        page = get_comments_pages(request, test.comments.all())
         context.update(get_pages_context(page))
         return render(request, 'tests/test_show.html', context=context)
 
@@ -85,7 +85,7 @@ class ShowTest(View):
                 Q(question=question.cleaned_data.get('question')) &
                 Q(test__id=test.id)).first()
             if quest_old is None:
-                test.question_set.create(
+                test.question.create(
                     question=question.cleaned_data.get('question'),
                     answers=question.get_answers(),
                     correct=request.POST.get('answer')
@@ -95,7 +95,7 @@ class ShowTest(View):
             'form': CommentForm(),
             'question': QuestionForm()
         }
-        page = get_comments_pages(request, test.comment_set.all())
+        page = get_comments_pages(request, test.comments.all())
         context.update(get_pages_context(page))
         return render(request, 'tests/test_show.html', context=context)
 
@@ -124,7 +124,7 @@ class AddComment(LoginRequiredMixin, View):
         form = CommentForm(request.POST)
         if form.is_valid():
             try:
-                test.comment_set.create(
+                test.comments.create(
                     author=request.user,
                     text=form.cleaned_data.get('text')
                 )
@@ -136,7 +136,7 @@ class AddComment(LoginRequiredMixin, View):
 class PassTest(LoginRequiredMixin, View):
     def get(self, request, slug):
         test = Test.objects.filter(slug=slug).first()
-        questions = test.question_set.all()
+        questions = test.questions.all()
         for question in questions:
             question.answers = question.answers.split(';')
         return render(request, 'tests/start_test.html', context={
@@ -148,7 +148,7 @@ class PassTest(LoginRequiredMixin, View):
     def post(self, request, slug):
         correct_answers = 0
         test = Test.objects.filter(slug=slug).first()
-        questions = test.question_set.all()
+        questions = test.questions.all()
         for i, question in enumerate(questions):
             answer = request.POST.get(str(i + 1), '')
             if question.correct == answer:
