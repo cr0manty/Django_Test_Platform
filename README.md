@@ -11,8 +11,7 @@ date of birth, information about yourself
 5. create a page with a view of all tests, filter 
 by name, sort by access
 6. page for a detailed presentation of the test - 
-name, description, comments, button "pass the test"
-* if the test is passed, show the test result 
+name, description, comments, button "pass the test" if the test is passed, show the test result 
 (number of correct answers and result in %)
 Passing the test can be done separately.
 7. tests can be commented
