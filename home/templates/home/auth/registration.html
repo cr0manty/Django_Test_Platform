@@ -2,13 +2,19 @@
 {% load static %}
 
 {% block title %}
-Регистрация
+    Регистрация
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'registration_url' %}" method="POST">
-    <h1>Регистрация</h1>
-    {% include 'template_forms.html' %}
-    <button type="submit" class="btn btn-danger mb-5">Создать</button>
-</form>
+    <form action="{% url 'registration_url' %}" method="POST">
+        <h1>Регистрация</h1>
+        {% include 'template_forms.html' %}
+        <button type="submit" class="btn btn-danger mb-5">Создать</button>
+    </form>
+{% endblock %}
+
+{% block script %}
+    $(document).ready(function() {
+        $('#id_birth_date').attr('type', 'date');
+    });
 {% endblock %}

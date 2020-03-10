@@ -1,45 +1,28 @@
 from django import forms
+from django.forms import widgets
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
-class RegistrationForm(forms.Form):
-    first_name = forms.CharField(
-        label='Фамилия',
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
-    last_name = forms.CharField(
-        label='Имя',
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
-    username = forms.CharField(
-        label='Логин',
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-    )
-    email = forms.EmailField(
-        label='Email',
-        widget=forms.EmailInput(attrs={'class': 'form-control'}),
-    )
-    password = forms.CharField(
-        label='Пароль',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
+class RegistrationForm(forms.ModelForm):
     password_confirm = forms.CharField(
         label='Повторите пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
-    birth_date = forms.DateField(
-        input_formats=['%Y-%m-%d'],
-        label='Дата рождения',
-        widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'})
-    )
 
-    def save(self, commit=True):
-        password = self.cleaned_data.get('password')
-        self.set_password(password)
-        if commit:
-            super().save()
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'password', 'password_confirm', 'birth_date')
+        widgets = {'checkin': forms.DateInput(), 'password': forms.PasswordInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['password'].widget = forms.PasswordInput()
+
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     def clean_password_confirm(self):
         password1 = self.cleaned_data.get('password')

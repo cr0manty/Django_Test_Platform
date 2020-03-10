@@ -10,7 +10,8 @@ class User(AbstractUser):
                               blank=True)
 
     def save(self, *args, **kwargs):
-        self.set_password(self.password)
+        if not self.check_password(self.password):
+            self.set_password(self.password)
         super().save(*args, **kwargs)
 
     class Meta:

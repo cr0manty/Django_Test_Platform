@@ -22,7 +22,9 @@
 
                         {% endif %}
                                  class="img-thumbnail" id="profile_image"/>
-                        {{ form.image }}
+                        {% if user == request.user %}
+                            {{ form.image }}
+                        {% endif %}
                     </form>
                 </div>
                 <h1 align="center" style="margin-top: 0.8rem;">{{ user.username|title }}</h1>
