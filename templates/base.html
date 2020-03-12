@@ -18,16 +18,16 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" href="{% static 'img/logo.ico' %}">
     <style>
-    {% block custom_css %}
-    {% endblock %}
+        {% block custom_css %}
+        {% endblock %}
     </style>
-    <script type="text/javascript">
     {% block script %}
     {% endblock %}
-    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -57,19 +57,19 @@
         </ul>
         <ul class="navbar-nav">
             {% if request.user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_url' username=request.user %}">{{ request.user|title }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout_url' %}">Выйти</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_url' username=request.user %}">{{ request.user|title }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout_url' %}">Выйти</a>
+                </li>
             {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'registration_url' %}">Регистрация</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'login_url' %}">Вход</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'registration_url' %}">Регистрация</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login_url' %}">Вход</a>
+                </li>
             {% endif %}
         </ul>
     </div>

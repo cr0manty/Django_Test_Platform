@@ -1,11 +1,12 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import widgets
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
-class RegistrationForm(forms.ModelForm):
+class RegistrationForm(UserCreationForm):
     password_confirm = forms.CharField(
         label='Повторите пароль',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})

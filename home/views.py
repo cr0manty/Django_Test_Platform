@@ -1,3 +1,5 @@
+from django.contrib.auth.models import Group
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, login
 from django.views.generic.base import View
@@ -46,7 +48,8 @@ class RegisterUser(View):
     def post(self, request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.groups.add(Group.objects.get(name='User'))
             return redirect('login_url')
         return render(request, 'home/auth/registration.html', context={
             'form': form
@@ -75,6 +78,12 @@ def redirect_to_user(request):
     return redirect('login_url')
 
 
+def set_user_group(request):
+    user = request.user
+    user.switch_to_user()
+    return JsonResponse({})
+
+
 class SetAbout(View):
     def post(self, request, username):
         user = User.objects.filter(username=username).first()
@@ -94,4 +103,3 @@ class SetImage(View):
             user.image = image
             user.save()
         return redirect('user_redirect')
-

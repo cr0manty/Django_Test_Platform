@@ -1,71 +1,74 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ test.name }}
+    {{ test.name }}
 {% endblock %}
 
 {% block content %}
-<div class="card mb-4">
-    <div class="card-header">
-        <div class="row">
-            <h1 class="col-7">{{ test.name }}</h1>
-            <div class="col-5 additional_color" style="color: #989898;">{{ test.date_create }}</div>
-        </div>
-        <p id="author_post" style="margin-top: 0.1rem" class="col">
-            Автор:
-            <a class="author_link" href="{% url 'user_url' username=test.author %}">
-                {{ test.author }}
-            </a></p>
-        <p class="col-md-6" style="color: #989898;">Количество прохождений: {{ test.passes_number }}</p>
-    </div>
-    <div class="card-body">
-        <p class="card-text content-text">{{ test.description }}</p>
-        {% if test.questions.count < 5 %}
-        <p class="text-danger center" style="text-align: center;">
-            Тест не завершен! Для его прохождения требуется как минимум 5 вопросов!
-            Вопросов в тесте
-            {% if test.questions.count %}
-            {{ test.questions.count }}
-            {% else %}
-            0
-            {% endif %}
-            / 5.</p>
-        {% endif %}
-        <div class="row mb-3">
-            <div class="container">
-                {% if request.user.is_authenticated %}
-                <a href="{% url 'start_test' slug=test.slug %}"
-                   class="btn btn-danger {% if test.questions.count < 5 %}disabled{% endif %}">
-                    Пройти тест</a>
-                {% endif %}
-                {% if request.user == test.author %}
-                <a tabindex="" class="btn btn-outline-danger pull-right"
-                   onclick="show_hide(this)">Добавить вопрос</a>
-                {% endif %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="row">
+                <h1 class="col-7">{{ test.name }}</h1>
+                <div class="col-5 additional_color" style="color: #989898;">{{ test.date_create }}</div>
             </div>
+            <p id="author_post" style="margin-top: 0.1rem" class="col">
+                Автор:
+                <a class="author_link" href="{% url 'user_url' username=test.author %}">
+                    {{ test.author }}
+                </a></p>
+            <p class="col-md-6" style="color: #989898;">Количество прохождений: {{ test.passes_number }}</p>
         </div>
-        {% include 'includes/add_question.html' %}
+        <div class="card-body">
+            <p class="card-text content-text">{{ test.description }}</p>
+            {% if test.questions.count < 5 %}
+                <p class="text-danger center" style="text-align: center;">
+                    Тест не завершен! Для его прохождения требуется как минимум 5 вопросов!
+                    Вопросов в тесте
+                    {% if test.questions.count %}
+                        {{ test.questions.count }}
+                    {% else %}
+                        0
+                    {% endif %}
+                    / 5.</p>
+            {% endif %}
+            <div class="row mb-3">
+                <div class="container">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'start_test' slug=test.slug %}"
+                           class="btn btn-danger {% if test.questions.count < 5 %}disabled{% endif %}">
+                            Пройти тест</a>
+                    {% endif %}
+                    {% if request.user == test.author %}
+                        <a tabindex="" class="btn btn-outline-danger pull-right"
+                           onclick="show_hide(this)">Добавить вопрос</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% include 'includes/add_question.html' %}
+        </div>
+        <div class="card-footer text-muted">
+            <p id="comments_label" class="additional-color">Коментарии:</p>
+            <hr/>
+            {% include 'includes/comments.html' %}
+            {% include 'includes/modal_comment_form.html' %}
+        </div>
     </div>
-    <div class="card-footer text-muted">
-        <p id="comments_label" class="additional-color">Коментарии:</p>
-        <hr/>
-        {% include 'includes/comments.html' %}
-        {% include 'includes/modal_comment_form.html' %}
-    </div>
-</div>
 
 {% endblock %}
 
 {% block script %}
-function show_hide(button) {
-if (button.text == "Добавить вопрос") {
-button.text = "Скрыть";
-document.getElementById("add_question").hidden = false;
-}
-else if(button.text == "Скрыть") {
-button.text = "Добавить вопрос";
-document.getElementById("add_question").hidden = true;
-}
-}
+    <script type="text/javascript">
+
+    function show_hide(button) {
+        if (button.text === "Добавить вопрос") {
+            button.text = "Скрыть";
+            document.getElementById("add_question").hidden = false;
+        } else if (button.text === "Скрыть") {
+            button.text = "Добавить вопрос";
+            document.getElementById("add_question").hidden = true;
+        }
+    }
+    </script>
+
 {% endblock %}
 

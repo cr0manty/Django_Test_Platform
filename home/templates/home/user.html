@@ -28,6 +28,11 @@
                     </form>
                 </div>
                 <h1 align="center" style="margin-top: 0.8rem;">{{ user.username|title }}</h1>
+                {% if request.user.is_editor and user == request.user %}
+                    <br>
+                    <a href="#" id="switch" class="btn btn-outline-danger">Переключится на пользователя</a>
+                    <br>
+                {% endif %}
             </div>
             <div class="col-6">
                 <p> Имя: <br>{{ user.first_name }}</p>
@@ -35,10 +40,9 @@
                 <p> Email: <br>{{ user.email }}</p>
                 <p> Дата рождения:
                     <br>{% if user.birth_date == None %}Не указано{% else %}{{ user.birth_date }}{% endif %}</p>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff and user == request.user %}
                     <a href="/admin" class="btn btn-outline-danger">Админ</a>
                 {% endif %}
-
             </div>
         </div>
         <form action="{% url 'about_set' username=user.username %}" method="POST" id="about_form">
@@ -57,16 +61,34 @@
 
 
 {% block script %}
-    function about_me(button) {
-    if (button.value  == "Изменить") {
-    button.value  = "Сохранить";
-    document.getElementById("about").readOnly = false;
-    }
-    else {
-    button.value  = "Изменить";
-    document.getElementById("about").readOnly = true;
-    document.getElementById("about_form").submit();
-    }
-    }
+    <script type="text/javascript">
+
+        function about_me(button) {
+            if (button.value === "Изменить") {
+                button.value = "Сохранить";
+                document.getElementById("about").readOnly = false;
+            } else {
+                button.value = "Изменить";
+                document.getElementById("about").readOnly = true;
+                document.getElementById("about_form").submit();
+            }
+        }
+
+        $(document).ready(function () {
+            $('#switch').click(function () {
+                $.ajax({
+                    url: '{% url 'switch_to_user' %}',
+                    method: 'get',
+                    success: function (data) {
+                        location.reload(true);
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                });
+            });
+        });
+    </script>
+
 {% endblock %}
 

@@ -13,4 +13,5 @@ urlpatterns = [
     path('user/<username>/about', SetAbout.as_view(), name='about_set'),
     path('user/<username>/set_img', SetImage.as_view(), name='set_user_image'),
     path('user/', redirect_to_user, name='user_redirect'),
+    path('to-user/', set_user_group, name='switch_to_user')
 ]
