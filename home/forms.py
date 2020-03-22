@@ -7,31 +7,16 @@ User = get_user_model()
 
 
 class RegistrationForm(UserCreationForm):
-    password_confirm = forms.CharField(
-        label='Повторите пароль',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
-
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password', 'password_confirm', 'birth_date')
-        widgets = {'checkin': forms.DateInput(), 'password': forms.PasswordInput()}
+        fields = ('first_name', 'last_name', 'username', 'email', 'birth_date')
+        widgets = {'checkin': forms.DateInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['password'].widget = forms.PasswordInput()
-
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-
-    def clean_password_confirm(self):
-        password1 = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password_confirm')
-
-        if password1 != password2:
-            raise forms.ValidationError('Пароли не совпадают')
-        return password2
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
