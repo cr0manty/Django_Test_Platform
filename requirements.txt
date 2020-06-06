@@ -2,7 +2,7 @@ awesome-slugify==1.6.5
 certifi==2019.9.11
 chardet==3.0.4
 defusedxml==0.6.0
-Django==2.2.10
+Django==2.2.13
 djangorestframework==3.10.3
 idna==2.8
 mysqlclient==1.4.6
